@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: load-generator
+  namespace: cosmic-coffee
+  labels:
+    app: load-generator
+    component: testing
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: load-generator
+  template:
+    metadata:
+      labels:
+        app: load-generator
+        component: testing
+    spec:
+      containers:
+      - name: load-generator
+        image: bpschmitt/cosmic-coffee-load-generator:latest
+        imagePullPolicy: Always
+        env:
+        - name: FRONTEND_URL
+          value: "http://frontend"
+        - name: REQUEST_RATE
+          value: "30"
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+

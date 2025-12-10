@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: middleware
+  namespace: cosmic-coffee
+  labels:
+    app: middleware
+    component: middleware
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: middleware
+  template:
+    metadata:
+      labels:
+        app: middleware
+        component: middleware
+    spec:
+      containers:
+      - name: middleware
+        image: bpschmitt/cosmic-coffee-middleware:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3002
+          name: http
+        env:
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: middleware-config
+              key: PORT
+        - name: REDIS_URL
+          valueFrom:
+            configMapKeyRef:
+              name: middleware-config
+              key: REDIS_URL
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3002
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3002
+          initialDelaySeconds: 5
+          periodSeconds: 5
+

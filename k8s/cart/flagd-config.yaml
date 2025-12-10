@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flagd-config
+  namespace: cosmic-coffee
+  labels:
+    app: cart
+data:
+  flags.json: |
+    {
+      "flags": {
+        "cart-chaos-errors": {
+          "state": "ENABLED",
+          "variants": {
+            "on": {
+              "enabled": true,
+              "errorRate": 15,
+              "delayMs": 2000
+            },
+            "off": {
+              "enabled": false,
+              "errorRate": 0,
+              "delayMs": 0
+            }
+          },
+          "defaultVariant": "on"
+        }
+      }
+    }
+

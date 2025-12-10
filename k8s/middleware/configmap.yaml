@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: middleware-config
+  namespace: cosmic-coffee
+  labels:
+    app: middleware
+data:
+  PORT: "3002"
+  REDIS_URL: "redis:6379"
+

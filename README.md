@@ -4,39 +4,15 @@ A whimsical, fully-functional microservices application for demonstrating SaaS o
 
 ## Architecture
 
-```
-┌─────────────┐
-│   Frontend  │  (React + Nginx)
-│  Port: 80   │
-└──────┬──────┘
-       │
-       ▼
-┌─────────────┐
-│   Backend   │  (Node.js/Express)
-│  Port: 3001 │
-└──────┬──────┘
-       │
-       ├─────────────────┐
-       ▼                 ▼
-┌─────────────┐   ┌─────────────┐
-│ Middleware  │   │    Redis    │
-│    (Go)     │   │ (Key-Value) │
-│  Port: 3002 │   │  Port: 6379 │
-└──────┬──────┘   └─────────────┘
-       │
-       ▼
-┌─────────────┐
-│    Redis    │
-└─────────────┘
+For a detailed architecture diagram and comprehensive service documentation, see the [Architecture Documentation](docs/ARCHITECTURE.md#service-map).
 
-       ┌──────────────────┐
-       │ Load Generator   │  (Node.js)
-       │  (Continuous)    │
-       └────────┬─────────┘
-                │
-                ▼
-         (Generates Traffic)
-```
+**Quick Overview:**
+- **Frontend (React + Nginx)**: Customer-facing web interface
+- **Cart Service (Python/Flask + Flagd)**: Shopping cart management with feature flags
+- **Backend API (Node.js/Express)**: REST API and orchestration
+- **Middleware (Go)**: Business logic, validation, pricing, and inventory
+- **Redis**: Key-value store for data persistence
+- **Load Generator (Node.js)**: Continuous traffic generation
 
 ### Components
 
